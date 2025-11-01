@@ -1,5 +1,5 @@
 /**
- * @brief   Algoritmo de Prim
+ * @brief   Algoritmo de Prim utilizando Heap Mínimo
  * @details O programa recebe o nome de um arquivo .txt que contém a descrição do grafo como primeiro parâmetro via linha de comando.
  *          O arquivo .txt deve ser o seguinte formato:
  *
@@ -21,8 +21,8 @@
 #include <string.h>
 #include <stdint.h>
 
-/**
- * @brief a node of the adjacency list that represents the graph
+/** 
+ * @brief um nó do grafo representado pela lista do arquivo .txt recebido
  */
 typedef struct node
 {
@@ -32,7 +32,7 @@ typedef struct node
 } node_t;
 
 /**
- * @brief an edge of the graph
+ * @brief uma aresta do grafo
  */
 typedef struct edge
 {
@@ -42,7 +42,7 @@ typedef struct edge
 } edge_t;
 
 /**
- * @brief a heap of edges structure
+ * @brief um heap de arestas
  */
 typedef struct heap
 {
