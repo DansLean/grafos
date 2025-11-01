@@ -1,19 +1,19 @@
 /**
- * @brief   Prim's Algorithm using Min Heap
- * @details The program receives the name of a file containing the description of a graph via the command line.
- *          The file provided to the program must have the following layout:
+ * @brief   Algoritmo de Prim
+ * @details O programa recebe o nome de um arquivo .txt que contém a descrição do grafo como primeiro parâmetro via linha de comando.
+ *          O arquivo .txt deve ser o seguinte formato:
+ *
  *          n m
  *          u1 v1 c1
  *          u2 v2 c2
  *          ...
  *          um vm cm
- *          where n is the number of vertices, m is the number of edges,
- *          ui and vi are the ends of edge i and ci is the cost of edge i.
- *          Using Prim's Algorithm, the program calculates and displays the edges
- *          that constitute a minimum-cost spanning tree of the graph.
- * @author  Luca Uicaa Oliveira Paiva
- * @author  Matheus Batista Chavante
- * @author  Yuri Mateus Santiago
+ *		
+ *	    Sendo n o número de vértices, m o número de arestas, ui e vi as extremidades da aresta i e ci é o custo da aresta i.
+ *          Usando o Algoritmo de Prim, o programa calcula e retorna as arestas que compõem a árvore de custo mínimo desse grafo.
+ * @author  Daniel Leandro Campos Silva
+ * @author  João Guilherme Santos de Sousa
+ * @author  Lucas Silva do Nascimento
  */
 
 #include <stdio.h>
