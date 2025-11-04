@@ -22,13 +22,13 @@
 #include <stdint.h>
 
 /** 
- * @brief um nó do grafo representado pela lista do arquivo .txt recebido
+ * @brief um nó do grafo representado pela lista de adjacências
  */
 typedef struct node
 {
-    int32_t vertex;    /*!< the vertex that makes an edge with the vertex of its list index number */
-    int32_t cost;      /*!< the cost of the edge */
-    struct node *next; /*!< pointer to the next node of the list */
+    int32_t vertex;    /*!< o vértice que forma uma aresta com o vértice de seu índice na lista */
+    int32_t cost;      /*!< o custo da aresta */
+    struct node *next; /*!< ponteiro para o próximo nó da lista */
 } node_t;
 
 /**
@@ -36,9 +36,9 @@ typedef struct node
  */
 typedef struct edge
 {
-    int32_t vertex_u; /*!< the first vertex of the edge */
-    int32_t vertex_v; /*!< the second vertex of the edge */
-    int32_t cost;     /*!< the cost of the edge */
+    int32_t vertex_u; /*!< o primeiro vértice da aresta */
+    int32_t vertex_v; /*!< o segundo vértice da aresta */
+    int32_t cost;     /*!< o custo da aresta */
 } edge_t;
 
 /**
@@ -46,77 +46,74 @@ typedef struct edge
  */
 typedef struct heap
 {
-    int32_t size;     /*!< the size of the heap */
-    int32_t capacity; /*!< the capacity of the heap */
-    edge_t *edges;    /*!< the edges array */
+    int32_t size;     /*!< o tamanho do heap*/
+    int32_t capacity; /*!< a capacidade do heap */
+    edge_t *edges;    /*!< a lista de arestas */
 } heap_t;
 
-/**
- * @brief  reads the file with the graph, saves the number of vertices and edges
- *         in its pointers, saves the pointer to the graph representation and
- *         inserts all the vertices into its adjacency list
- * @param  filename the name of the file to be read
- * @param  graph returns the pointer of the graph representation
- * @param  vertices returns the number of vertices of the graph
- * @param  edges returns the number of edges of the graph
- * @return 0 on success, 1 otherwise
+/** 
+ * @brief  lê o arquivo com o gráfico, salva o número de vértices e arestas em seus ponteiros, salva o ponteiro para a representação do grafo e insere todos os vértices na lista de adjacências
+ * @param  filename o nome do arquivo a ser lido
+ * @param  graph retorna o ponteiro da representação do gráfico
+ * @param  vertices retorna o número de vértices do grafo
+ * @param  edges retorna o número de arestas do grafo
+ * @return 0 se rodar com sucesso, 1 se não
  */
 uint8_t create_graph(const char *filename, node_t **graph, int32_t *vertices, int32_t *edges);
 /**
- * @brief  searches for a null node in the list, updates the values ​​of this node
- *         and inserts a new null node at the end of the list
- * @param  list pointer to the list to insert values
- * @param  vertex the vertex to be inserted on list
- * @param  cost the edge cost to be inserted on list
- * @return 0 on success, 1 otherwise
+ * @brief  procura por um nó vazio na lista, atualiza o valor desse nó e insere um novo nó vazio no fim da lista
+ * @param  list ponteiro que aponta para a lista para inserir valores
+ * @param  vertex o vértice a ser inserido na lista
+ * @param  cost o custo da aresta a ser inserido na lista
+ * @return 0 se rodar com sucesso, 1 se não
  */
 uint8_t insert_on_list(node_t *list, int32_t vertex, int32_t cost);
 
 /**
- * @brief  Prim's algorithm for minimum spanning tree
- * @param  graph the graph to be analyzed
- * @param  vertices the number of vertices of the graph
- * @param  edges the number of edges of the graph
- * @return 0 on success, 1 otherwise
+ * @brief  Algoritmo de Prim para a Árvore Geradora Mínima
+ * @param  graph o grafo em questão a ser analizado
+ * @param  vertices o número de vértices do grafo
+ * @param  edges o números de arestas do grafo
+ * @return 0 se rodar com sucesso, 1 se não
  */
 uint8_t prim(node_t **graph, int32_t vertices, int32_t edges);
 /**
- * @brief  searches for a value in an array
- * @param  value the value to be search
- * @param  array the pointer to array
- * @param  array_size the array size
- * @return 1 if the value is in the array, 0 otherwise
+ * @brief  procura por um valor na lista
+ * @param  value o valor a ser procurado na lista
+ * @param  array o ponteiro para a lista
+ * @param  array_size o tamanho da lista
+ * @return 1 se o valor está na lista, 0 se não
  */
 uint8_t search_on_array(int32_t value, const int32_t *array, int32_t array_size);
 
 /**
- * @brief  creates a empty heap of edges
- * @param  capacity the heap capacity
- * @return the pointer to the heap on success, NULL otherwise
+ * @brief  cria um heap vazio de arestas
+ * @param  capacity a capacidade do heap
+ * @retorna o ponteiro para o head se rodar com sucesso, NULL se não
  */
 heap_t *create_heap(int32_t capacity);
 /**
- * @brief inserts an edge into the heap
- * @param heap the pointer to the heap
- * @param edge the edge to be inserted
+ * @brief insere uma aresta no heap
+ * @param heap o ponteiro para o heap
+ * @param edge aresta a ser inserida
  */
 void insert_on_heap(heap_t *heap, edge_t edge);
 /**
- * @brief arranges an edge in the correct place in the heap
- * @param heap the pointer to the heap
- * @param index the index of the edge to be arranged
+ * @brief posiciona uma aresta no lugar correto na pilha
+ * @param heap o ponteiro para a pilha
+ * @param index o índice da aresta a ser posicionada
  */
 void arrange_heap(heap_t *heap, int32_t index);
 /**
- * @brief  removes the minimum edge from the heap and all edges that become internal edges
- * @param  heap the pointer to the heap
- * @return the minimum edge removed
+ * @brief  remove a aresta mínima da pilha e todas as arestas que se tornam arestas internas
+ * @param  heap o ponteiro para o heap
+ * @retorna a aresta mínima removida
  */
 edge_t remove_min_from_heap(heap_t *heap);
 /**
- * @brief  heapifies the heap to the min heap properties
- * @param  heap the pointer to the heap
- * @param  index the edge index to heapify
+ * @brief  reestrutura o heap para manter as propriedades do min-heap
+ * @param  heap o ponteiro para o heap
+ * @param  index o índice da aresta a ser reestruturada
  */
 void heapify(heap_t *heap, int32_t index);
 
@@ -161,21 +158,21 @@ uint8_t create_graph(const char *filename, node_t **graph, int32_t *vertices, in
         return 1;
     }
 
-    // reads the first n and m from file
+    // lê o primeiro n e m do arquivo
     if (sscanf(line, "%d %d", vertices, edges) != 2)
     {
         printf("Erro no layout do arquivo\n");
         return 1;
     }
 
-    // allocates memory for vertices + 1, due to vertex number begins with 1
+    // aloca memória para vertices + 1, pois o número de vertices começa em 1
     *graph = (node_t *)malloc((*vertices + 1) * sizeof(node_t));
     if (*graph == NULL)
     {
         printf("Erro ao alocar espaço para o grafo\n");
         return 1;
     }
-    // initializes all nodes of the list array with NULL in their pointers
+    // inicializa todos os nós da lisa com NULL em seus ponteiros
     for (int32_t i = 1; i <= *vertices; i++)
     {
         (*graph)[i].next = NULL;
@@ -192,25 +189,25 @@ uint8_t create_graph(const char *filename, node_t **graph, int32_t *vertices, in
         int32_t vertex_u;
         int32_t vertex_v;
         int32_t cost;
-        // reads each edge i
+        // lê cada aresta i
         if (sscanf(line, "%d %d %d", &vertex_u, &vertex_v, &cost) != 3)
         {
             printf("Erro no layout do arquivo\n");
             return 1;
         }
-        // checks for edges with ends at the same vertex
+        // verifica por arestas que terminam no mesmo vértice
         if (vertex_u == vertex_v)
         {
             printf("Erro, o grafo fornecido possui uma aresta conectando o mesmo vertice\n");
             return 1;
         }
 
-        // inserts vertex v in vertex u list
+        // insere vertex_v na lista vertex_u
         if (insert_on_list(&(*graph)[vertex_u], vertex_v, cost))
         {
             return 1;
         }
-        // inserts vertex u in vertex v list
+        // insere vertex_u na lista vertex_v
         if (insert_on_list(&(*graph)[vertex_v], vertex_u, cost))
         {
             return 1;
@@ -231,16 +228,16 @@ uint8_t insert_on_list(node_t *list, int32_t vertex, int32_t cost)
     }
     null_node->next = NULL;
 
-    // searches for a null node on the list
+    // procura por um nó nulo na lista
     while (list->next != NULL)
     {
         list = list->next;
     }
 
-    // updates the values of the null node
+    // atualiza o valor do nó nulo
     list->vertex = vertex;
     list->cost = cost;
-    // inserts a null node at the end of the list
+    // insere um nó nullo no fim da lista
     list->next = null_node;
 
     return 0;
@@ -248,7 +245,7 @@ uint8_t insert_on_list(node_t *list, int32_t vertex, int32_t cost)
 
 uint8_t prim(node_t **graph, int32_t vertices, int32_t edges)
 {
-    // creates a array with the vertices inserted on the minimum spanning tree
+    // cria uma lista com os vértices inseridos na Árvore Geradora Mínima
     int32_t tree_vertices_size = 0;
     int32_t *tree_vertices = (int32_t *)malloc(vertices * sizeof(int32_t));
     if (tree_vertices == NULL)
@@ -257,7 +254,7 @@ uint8_t prim(node_t **graph, int32_t vertices, int32_t edges)
         return 1;
     }
 
-    // creates a array with the edges inserted on the minimum spanning tree
+    // cria uma lista com as arestas inseridos na Árvore Geradora Mínima
     edge_t *tree_edges = (edge_t *)malloc((vertices - 1) * sizeof(edge_t));
     if (tree_edges == NULL)
     {
@@ -265,7 +262,7 @@ uint8_t prim(node_t **graph, int32_t vertices, int32_t edges)
         return 1;
     }
 
-    // creates a heap that will store the border edges of the tree
+    // cria um heap que armazenará as arestas de fronteira da árvore
     heap_t *heap = create_heap(edges);
     if (heap == NULL)
     {
@@ -273,11 +270,11 @@ uint8_t prim(node_t **graph, int32_t vertices, int32_t edges)
         return 1;
     }
 
-    // inserts the first vertex on the tree
+    // insere o primeiro vértice na árvore
     tree_vertices[tree_vertices_size] = 1;
     tree_vertices_size++;
 
-    // inserts the first vertex edges to the heap of border edges
+    // adiciona as arestas do primeiro vértice ao heap que guarda as arestas de fronteira
     node_t *node = &(*graph)[1];
     while (node->next != NULL)
     {
@@ -301,12 +298,11 @@ uint8_t prim(node_t **graph, int32_t vertices, int32_t edges)
 
         edge_t min = remove_min_from_heap(heap);
 
-        // inserts the new vertex edges to the heap of border edges
+        // insere as arestas do novo vértice no heap de arestas de fronteira
         node = &(*graph)[min.vertex_v];
         while (node->next != NULL)
         {
-            // checks if the edge to be inserted is not an
-            // internal edge to insert it into the heap
+            // verifica se a aresta a ser inserida não é uma aresta interna para inseri-la no heap
             if (!search_on_array(node->vertex, tree_vertices, tree_vertices_size))
             {
                 edge_t edge = {
@@ -320,14 +316,13 @@ uint8_t prim(node_t **graph, int32_t vertices, int32_t edges)
             node = node->next;
         }
 
-        // inserts the new vertex on the tree
-        // and the minimum edge on the tree
+        // insere o novo vértice na árvore e a aresta de menor peso na árvore
         tree_edges[tree_vertices_size - 1] = min;
         tree_vertices[tree_vertices_size] = min.vertex_v;
         tree_vertices_size++;
     }
 
-    // prints the minimum spanning tree edges and cost
+    // imprime as arestas e o custo da árvore geradora mínima
     int32_t tree_value = 0;
     printf("Arvore Geradora de Custo Minimo:");
     for (int32_t i = 0; i < vertices - 1; i++)
@@ -376,9 +371,9 @@ void insert_on_heap(heap_t *heap, edge_t edge)
 {
     if (heap->size < heap->capacity)
     {
-        // inserts the edge at the end of the heap
+        // insere a aresta no final do heap
         heap->edges[heap->size] = edge;
-        // arranges the edge to the correct place
+        // coloca a aresta na posição correta
         arrange_heap(heap, heap->size);
         heap->size++;
     }
@@ -400,7 +395,7 @@ void arrange_heap(heap_t *heap, int32_t index)
         edge_t temp = *parent;
         *parent = *current;
         *current = temp;
-        // recursive call with the new position of the edge
+        // chamada recursiva com a nova posição da aresta
         arrange_heap(heap, parent_index);
     }
 }
@@ -409,17 +404,16 @@ edge_t remove_min_from_heap(heap_t *heap)
 {
     edge_t removed = heap->edges[0];
 
-    // removes all internal edges from the heap
+    //remove todas as arestas internas do heap
     int32_t i = 0;
     while (i < heap->size)
     {
         edge_t *current = &heap->edges[i];
 
-        // the removed vertex v will be an internal vertex,
-        // so all edges with this vertex at v will be internal edges
+        // o vértice removido v será um vértice interno, portanto todas as arestas que têm esse vértice v serão arestas internas
         if (current->vertex_v == removed.vertex_v)
         {
-            // swaps the last edge with the current and checks this index again
+            // troca a última aresta pela aresta atual e verifica novamente este índice
             *current = heap->edges[heap->size - 1];
             heap->size--;
         }
@@ -431,7 +425,7 @@ edge_t remove_min_from_heap(heap_t *heap)
 
     if (heap->size > 1)
     {
-        // heapify the remaining edges
+        // reorganiza as arestas restantes na forma de um min-heap
         i = (heap->size - 2) / 2;
         while (i >= 0)
         {
